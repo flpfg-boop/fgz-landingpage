@@ -1,4 +1,4 @@
-const CACHE = "fgz-v1";
+const CACHE = "fgz-v2"; // bei Änderungen am SW hochzählen
 const ASSETS = [
   "/fgz-landingpage/",
   "/fgz-landingpage/index.html",
@@ -11,11 +11,31 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
-  );
+  const req = event.request;
+
+  // Für Seitenaufrufe (index.html etc.): network-first => Updates kommen an
+  const accept = req.headers.get("accept") || "";
+  if (req.mode === "navigate" || accept.includes("text/html")) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // Für alles andere: cache-first
+  event.respondWith(caches.match(req).then((cached) => cached || fetch(req)));
 });
