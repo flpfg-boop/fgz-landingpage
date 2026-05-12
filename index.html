@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FGZ – Angebote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;700&display&family=Noto+Sans:wght@700=swap" rel="stylesheet">
+<style>
+  :root{
+    --fgz-blue-dark:#0055a4;
+    --fgz-blue:#009fe3;
+    --fgz-yellow:#fff07e;
+    --fgz-cream:#f3f7ef;
+    --fgz-purple:#732165;
+    --ink:#06294d;
+    --white:#ffffff;
+    --shadow:0 18px 38px rgba(6,41,77,.20);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    width:100%;height:100%;overflow:hidden;
+    font-family:"Red Hat Text",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--white);
+    background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);
+  }
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+ .frame{
+	  width:1200px;height:1920px;
+	  transform-origin:center center;
+	  position:relative;
+	  padding:80px 70px 70px;
+	  display:grid;
+	  grid-template-rows:minmax(140px, 350px) 1fr;
+	  gap:30px;
+	  flex-shrink:0;
+	}
+
+  .watermark{
+    position:absolute;
+    top:-700px;
+    left:-900px;
+    width:1800px;
+    height:1800px;
+    opacity:.10;
+    pointer-events:none;
+    z-index:0;
+    background-image:url("assets/34Logo_wei-_ohneSchriftzug.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:top left;
+  }
+
+	.header{
+	  display:flex;
+	  align-items:flex-start;
+	  justify-content:flex-start;
+	  min-height:0; /* wichtig, falls Header im Grid schrumpfen darf */
+	}
+
+	/* Start bündig mit der Grenze zwischen linker und rechter Box-Spalte:
+	   linke Box-Spalte ist 340px breit */
+	.site-title{
+	  margin-left:340px;
+	  margin-top:80px;
+
+	  font-family:"Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+	  font-weight:700;
+	  color:#fff;
+	  line-height:1.2;
+	  letter-spacing:0.01em;
+
+	  /* Größe nach Geschmack */
+	  font-size:55px;
+	}
+
+
+	.sections{
+	  position:relative;
+	  z-index:2;
+	  display:grid;
+	  grid-template-rows:auto;
+	  gap:50px;
+	  min-height:0;
+	}
+
+
+  .section{
+    position:relative;
+    display:grid;
+    grid-template-columns:340px 1fr;
+    border-radius:28px;
+    background:var(--white);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    color:var(--ink);
+  }
+  .section.publications,
+  .section.social{background:transparent;box-shadow:none}
+  .section.publications .section-body{background:var(--white)}
+  .section.social .section-body{background:var(--white)}
+
+  .section-side{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 18px;
+    text-align:center;
+  }
+  .section.tools .section-side{background:var(--fgz-yellow);color:var(--fgz-blue-dark)}
+  .section.publications .section-side{background:var(--fgz-purple);color:var(--white)}
+  .section.social .section-side{background:var(--fgz-blue-dark);color:var(--white)}
+
+  .section-title{
+    font-family:"Red Hat Display",sans-serif;
+    font-weight:900;
+    font-size:34px;
+    line-height:1.02;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+  }
+  .section-kicker{
+    font-family:"Red Hat Display",sans-serif;
+    font-weight:800;
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    opacity:.85;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  .section-body{
+    padding:26px 30px 26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:16px;
+    min-width:0;
+  }
+  .sub-link{margin-top:18px}
+
+  .button-row{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+
+  .btn{
+    position:relative;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    min-height:96px;
+    padding:22px 32px;
+    border-radius:18px;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--fgz-cream);
+    border:2px solid transparent;
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    overflow:hidden;
+  }
+  .btn:hover,.btn:focus-visible{
+    transform:translateY(-3px);
+    border-color:var(--fgz-blue-dark);
+    box-shadow:0 14px 28px rgba(6,41,77,.18);
+    outline:none;
+  }
+  .btn-top{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex:1;
+    min-width:0;
+  }
+  .btn-accent{
+    width:18px;height:18px;border-radius:50%;flex:0 0 auto;
+  }
+  .btn-label{
+    font-family:"Red Hat Display",sans-serif;
+    font-weight:800;
+    font-size:32px;
+    line-height:1.05;
+    color:var(--fgz-blue-dark);
+  }
+  .arrow{width:30px;height:30px;color:var(--fgz-blue-dark);flex:0 0 auto}
+
+  .tools .btn:nth-child(1) .btn-accent{background:var(--fgz-yellow);outline:2px solid var(--fgz-blue-dark)}
+  .tools .btn:nth-child(2) .btn-accent{background:var(--fgz-purple)}
+  .tools .btn:nth-child(3) .btn-accent{background:var(--fgz-blue)}
+
+  .publications .btn:nth-child(1) .btn-accent{background:var(--fgz-purple)}
+  .publications .btn:nth-child(2) .btn-accent{background:var(--fgz-blue-dark)}
+  .publications .btn:nth-child(3) .btn-accent{background:var(--fgz-yellow);outline:2px solid var(--fgz-blue-dark)}
+
+  .social .btn{background:var(--fgz-blue-dark);color:var(--white);border-color:transparent}
+  .social .btn .btn-label{color:var(--white);font-size:32px}
+  .social .btn .arrow{color:var(--fgz-yellow)}
+  .social .btn:hover,.social .btn:focus-visible{border-color:var(--fgz-yellow)}
+  .social .btn-accent{display:none}
+  .social-icon{width:36px;height:36px;color:var(--fgz-yellow);flex:0 0 auto}
+
+  .sub-link{
+    align-self:flex-start;
+    text-decoration:none;
+    color:var(--fgz-blue-dark);
+    font-family:"Red Hat Display",sans-serif;
+    font-weight:700;
+    font-size:16px;
+    border-bottom:2px solid var(--fgz-blue);
+    padding: 0 0 3px 0;
+  }
+  .sub-link:hover{color:var(--fgz-purple);border-color:var(--fgz-purple)}
+
+  svg{display:block}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <main class="frame" id="frame">
+      <div class="watermark" aria-hidden="true"></div>
+
+      <header class="header">
+        <h1 class="site-title">
+	  Forschungsinstitut<br>
+	  Gesellschaftlicher<br>
+	  Zusammenhalt
+	</h1>
+
+      </header>
+
+      <div class="sections">
+
+        <article class="section tools">
+          <aside class="section-side">
+            <div>
+              <span class="section-kicker">Praxis</span>
+              <h2 class="section-title">Interaktive<br>Tools</h2>
+            </div>
+          </aside>
+          <div class="section-body">
+            <div class="button-row">
+              <a class="btn" href="https://fgz-risc-data.de/klimatypenrechner/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">Klimatypenrechner</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://fgz-risc-data.de/interaktive-tools/milieu-rechner/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">Milieurechner</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://protestdata.eu/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">Protestlandschaft Deutschland</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+            <a class="sub-link" href="https://fgz-risc.de/wissenstransfer/praxisangebote/" target="_blank" rel="noopener noreferrer">Weitere Praxisangebote des FGZ →</a>
+          </div>
+        </article>
+
+        <article class="section publications">
+          <aside class="section-side">
+            <div>
+              <span class="section-kicker">Wissen</span>
+              <h2 class="section-title">Publikations-<br>Highlights</h2>
+            </div>
+          </aside>
+          <div class="section-body">
+            <div class="button-row">
+              <a class="btn" href="https://fgz-risc.de/publikationen-mediathek/publikationsformate/zusammenhaltsbericht/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">Zusammenhaltsberichte</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://fgzrisc.hypotheses.org/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">FGZ Blog</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://fgz-risc.de/publikationen-mediathek/publikationsformate/schriftenreihe/" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top"><span class="btn-label">FGZ Schriftenreihe</span><span class="btn-accent"></span></div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+            <a class="sub-link" href="https://fgz-risc.de/publikationen-mediathek/publikationsdatenbank/" target="_blank" rel="noopener noreferrer">Weitere Publikationen des FGZ →</a>
+          </div>
+        </article>
+
+        <article class="section social">
+          <aside class="section-side">
+            <div>
+              <span class="section-kicker">Kanäle</span>
+              <h2 class="section-title">Das FGZ<br>auf Social<br>Media</h2>
+            </div>
+          </aside>
+          <div class="section-body">
+            <div class="button-row">
+              <a class="btn" href="https://www.instagram.com/fgz_risc/?hl=de" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top">
+                  <svg class="social-icon" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+                  </svg>
+                  <span class="btn-label">Instagram</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://www.youtube.com/@fgz_risc" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top">
+                  <svg class="social-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M21.6 8.2c-.2-1.4-.9-2.1-2.3-2.3C17.6 5.6 12 5.6 12 5.6s-5.6 0-7.3.3c-1.4.2-2.1.9-2.3 2.3C2.1 9.9 2.1 12 2.1 12s0 2.1.3 3.8c.2 1.4.9 2.1 2.3 2.3 1.7.3 7.3.3 7.3.3s5.6 0 7.3-.3c1.4-.2 2.1-.9 2.3-2.3.3-1.7.3-3.8.3-3.8s0-2.1-.3-3.8z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/>
+                  </svg>
+                  <span class="btn-label">YouTube</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn" href="https://de.linkedin.com/company/fgz-risc" target="_blank" rel="noopener noreferrer">
+                <div class="btn-top">
+                  <svg class="social-icon" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="7.5" cy="8.5" r="1.4" fill="currentColor"/>
+                    <path d="M6.5 11h2v6h-2zM11 11h2v1.2c.5-.8 1.4-1.4 2.6-1.4 1.9 0 2.9 1.2 2.9 3.3V17h-2v-2.6c0-1.1-.4-1.9-1.5-1.9s-1.7.7-1.7 1.9V17h-2z" fill="currentColor"/>
+                  </svg>
+                  <span class="btn-label">LinkedIn</span>
+                </div>
+                <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </main>
+  </div>
+
+<script>
+  (function(){
+    var frame = document.getElementById('frame');
+    var baseW = 1200, baseH = 1920;
+    function fit(){
+      var scale = Math.min(window.innerWidth / baseW, window.innerHeight / baseH);
+      frame.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', fit);
+    window.addEventListener('orientationchange', fit);
+    fit();
+  })();
+</script>
+</body>
+</html>
