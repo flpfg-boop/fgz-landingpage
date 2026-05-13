@@ -6,10 +6,38 @@
 <title>FGZ – Interaktive Tools</title>
 <link rel="manifest" href="/fgz-landingpage/manifest.webmanifest">
 <!-- Schriften: preconnect + preload für zuverlässiges Laden auch offline/App -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;900&family=Red+Hat+Text:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;900&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<style>
+  @font-face {
+    font-family: "Red Hat Display";
+    src: url("assets/fonts/red-hat-display-v21-latin-700.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Red Hat Display";
+    src: url("assets/fonts/red-hat-display-v21-latin-900.woff2") format("woff2");
+    font-weight: 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Red Hat Text";
+    src: url("assets/fonts/red-hat-text-v19-latin-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Red Hat Text";
+    src: url("assets/fonts/red-hat-text-v19-latin-500.woff2") format("woff2");
+    font-weight: 500;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Red Hat Text";
+    src: url("assets/fonts/red-hat-text-v19-latin-700.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+  }
+</style>
 <style>
   :root{
     --fgz-blue-dark:#0055a4;
