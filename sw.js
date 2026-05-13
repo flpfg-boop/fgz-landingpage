@@ -1,4 +1,4 @@
-const CACHE = "fgz-v2"; // bei Änderungen am SW hochzählen
+const CACHE = "fgz-v3"; // hochgezählt => Tablet lädt neue Version automatisch
 const ASSETS = [
   "/fgz-landingpage/",
   "/fgz-landingpage/index.html",
@@ -33,6 +33,12 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(() => caches.match(req))
     );
+    return;
+  }
+
+  // Google Fonts: immer frisch laden (nie aus Cache), damit Schriften ankommen
+  if (req.url.includes("fonts.googleapis.com") || req.url.includes("fonts.gstatic.com")) {
+    event.respondWith(fetch(req));
     return;
   }
 
