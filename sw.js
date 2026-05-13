@@ -1,4 +1,4 @@
-const CACHE = "fgz-v3"; // hochgezählt => Tablet lädt neue Version automatisch
+const CACHE = "fgz-v4"; // hochgezählt => Tablet lädt neue Version automatisch
 const ASSETS = [
   "/fgz-landingpage/",
   "/fgz-landingpage/index.html",
