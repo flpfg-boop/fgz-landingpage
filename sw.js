@@ -2,7 +2,12 @@ const CACHE = "fgz-v3"; // hochgezählt => Tablet lädt neue Version automatisch
 const ASSETS = [
   "/fgz-landingpage/",
   "/fgz-landingpage/index.html",
-  "/fgz-landingpage/manifest.webmanifest"
+  "/fgz-landingpage/manifest.webmanifest",
+  "/fgz-landingpage/assets/fonts/red-hat-display-v21-latin-700.woff2",
+  "/fgz-landingpage/assets/fonts/red-hat-display-v21-latin-900.woff2",
+  "/fgz-landingpage/assets/fonts/red-hat-text-v19-latin-regular.woff2",
+  "/fgz-landingpage/assets/fonts/red-hat-text-v19-latin-500.woff2",
+  "/fgz-landingpage/assets/fonts/red-hat-text-v19-latin-700.woff2"
 ];
 
 self.addEventListener("install", (event) => {
