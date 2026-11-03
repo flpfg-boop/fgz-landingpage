@@ -281,13 +281,13 @@
   .viewer.open{display:flex;}
   html.viewer-open{overflow:hidden;}
   .viewer-bar{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:calc(6px + env(safe-area-inset-top)) calc(10px + env(safe-area-inset-right)) 6px calc(10px + env(safe-area-inset-left));
+    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    height:calc(60px + env(safe-area-inset-top));padding:env(safe-area-inset-top) calc(20px + env(safe-area-inset-right)) 0 calc(20px + env(safe-area-inset-left));
     background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);
   }
   .viewer-back,.viewer-ext{
     position:relative;display:flex;align-items:center;gap:6px;border:none;cursor:pointer;color:#fff;
-    background:rgba(255,255,255,.16);border-radius:11px;min-height:30px;padding:6px 12px;
+    background:rgba(255,255,255,.16);border-radius:12px;min-height:36px;padding:8px 16px;
     font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:14px;line-height:1.1;text-decoration:none;
     transition:background .18s ease, transform .18s ease;
     -webkit-tap-highlight-color:transparent;
