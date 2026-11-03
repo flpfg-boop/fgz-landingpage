@@ -50,11 +50,12 @@
     --shadow:0 18px 38px rgba(6,41,77,.20);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%;height:100%;overflow:hidden;font-family:"Red Hat Text",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--white);background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);}
-  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  html{width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%) fixed;}
+  body{width:100%;min-height:100%;overflow-x:hidden;font-family:"Red Hat Text",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--white);background:transparent;}
+  .stage{position:relative;width:100%;display:flex;justify-content:center;align-items:flex-start;overflow:hidden}
   .frame{
-    width:1200px;height:1920px;transform-origin:center center;position:relative;
-    padding:80px 70px 70px;display:grid;grid-template-rows:minmax(180px,320px) 1fr;gap:30px;flex-shrink:0;
+    width:1340px;height:3248px;transform-origin:top center;position:relative;
+    padding:160px 140px 140px;display:grid;grid-template-rows:auto 1fr;gap:70px;flex-shrink:0;
   }
   .watermark{position:absolute;top:-700px;left:-1400px;width:2400px;height:2400px;opacity:.10;pointer-events:none;z-index:0;background-image:url("assets/34Logo.png");background-size:contain;background-repeat:no-repeat;background-position:top left;}
 
@@ -103,7 +104,7 @@
   }
 
   /* ── SECTIONS ── */
-  .sections{position:relative;z-index:2;display:grid;grid-template-rows:auto auto auto auto;gap:42px;min-height:0;align-content:end;}
+  .sections{position:relative;z-index:2;display:grid;grid-template-rows:repeat(7,auto);gap:42px;min-height:0;align-content:end;}
 
   .section{
     position:relative;
@@ -129,9 +130,10 @@
   }
 
   /* Seitenfarben */
-  .section.tools:nth-child(1) .section-side{background:var(--fgz-purple);}
-  .section.tools:nth-child(2) .section-side{background:var(--fgz-yellow);}
-  .section.tools:nth-child(3) .section-side{background:var(--fgz-blue-dark);}
+  .section.c-purple .section-side{background:var(--fgz-purple);}
+  .section.c-yellow .section-side{background:var(--fgz-yellow);}
+  .section.c-blue .section-side{background:var(--fgz-blue-dark);}
+  .section.c-cream .section-side{background:var(--fgz-cream);}
 
   .section-side{display:flex;align-items:center;justify-content:center;padding:24px 18px;text-align:center;}
   .section-body{padding:28px 34px 28px 34px;display:flex;flex-direction:column;justify-content:center;gap:0;min-width:0;position:relative;}
@@ -205,9 +207,10 @@
   /* Icons (Bilder) */
   .icon-wrap{width:180px;height:180px;display:flex;align-items:center;justify-content:center;}
   .icon-wrap img{width:150px;height:150px;object-fit:contain;}
-  .section.tools:nth-child(1) .icon-wrap img{filter:brightness(0) invert(1);}
-  .section.tools:nth-child(2) .icon-wrap img{filter:brightness(0) saturate(100%) invert(18%) sepia(90%) saturate(1200%) hue-rotate(196deg) brightness(95%) contrast(105%);}
-  .section.tools:nth-child(3) .icon-wrap img{filter:brightness(0) invert(1);}
+  .section.c-purple .icon-wrap img,
+  .section.c-blue .icon-wrap img{filter:brightness(0) invert(1);}
+  .section.c-yellow .icon-wrap img,
+  .section.c-cream .icon-wrap img{filter:brightness(0) saturate(100%) invert(18%) sepia(90%) saturate(1200%) hue-rotate(196deg) brightness(95%) contrast(105%);}
 
   /* Pfeil-Button rechts unten */
   .corner-arrow{
@@ -272,6 +275,28 @@
     line-height:1.1;
   }
   svg{display:block}
+
+  /* ── VIEWER-OVERLAY (Links im selben Fenster) ── */
+  .viewer{position:fixed;inset:0;z-index:1000;display:none;flex-direction:column;background:var(--fgz-blue-dark);}
+  .viewer.open{display:flex;}
+  html.viewer-open{overflow:hidden;}
+  .viewer-bar{
+    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));
+    background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);
+  }
+  .viewer-back,.viewer-ext{
+    display:flex;align-items:center;gap:12px;border:none;cursor:pointer;color:#fff;
+    background:rgba(255,255,255,.16);border-radius:22px;min-height:60px;padding:12px 24px;
+    font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:22px;line-height:1.1;text-decoration:none;
+    transition:background .18s ease, transform .18s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .viewer-back:active,.viewer-ext:active{transform:scale(.98);background:rgba(255,255,255,.26);}
+  .viewer-back svg{width:24px;height:24px;}
+  .viewer-ext{font-size:18px;font-weight:700;font-family:"Red Hat Text",sans-serif;}
+  .viewer-slot{flex:1 1 auto;min-height:0;display:flex;background:#fff;}
+  .viewer-frame{flex:1 1 auto;width:100%;height:100%;border:0;background:#fff;}
 </style>
 </head>
 <body>
@@ -284,7 +309,7 @@
     <div class="header-card">
       <h1>Forschungsinstitut Gesellschaftlicher Zusammenhalt</h1>
       <span class="tools-label-wrap">
-        <span class="tools-label">Interaktive Tools</span>
+        <span class="tools-label">Interaktive Tools &amp; Angebote</span>
       </span>
     </div>
   </div>
@@ -292,9 +317,43 @@
   <!-- BODY SECTIONS -->
   <div class="sections">
 
+    <!-- Box 1: Streitbot -->
+    <div class="section tools c-purple">
+      <a class="section-link-overlay" href="https://onkelbot.qu.tu-berlin.de/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://onkelbot.qu.tu-berlin.de/')" aria-label="Zum Streitbot"></a>
+      <div class="section-side">
+        <div class="icon-wrap"><img src="assets/streit.svg" alt=""></div>
+      </div>
+      <div class="section-body">
+        <div class="tool-text">
+          <div class="tool-title">Der Streitbot</div>
+          <div class="tool-sub">
+            <div class="sub-row">
+              <span class="sub-icon question">?</span>
+              <span class="sub-text">Wie gelingt eine konstruktive Diskussion mit Menschen, die politisch anders ticken als du?</span>
+            </div>
+            <div class="sub-row">
+              <span class="sub-icon star">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="12" y1="2" x2="12" y2="22"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                  <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/>
+                </svg>
+              </span>
+              <span class="sub-text">Trainiere deine Streitfähigkeiten – per Chat mit einem fiktiven Familienmitglied!</span>
+            </div>
+          </div>
+        </div>
+        <div class="corner-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
     <!-- Box 1: Klimatypenrechner -->
-    <div class="section tools">
-      <a class="section-link-overlay" href="https://fgz-risc-data.de/klimatypenrechner/" aria-label="Zum Klimatypenrechner"></a>
+    <div class="section tools c-yellow">
+      <a class="section-link-overlay" href="https://fgz-risc-data.de/klimatypenrechner/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgz-risc-data.de/klimatypenrechner/')" aria-label="Zum Klimatypenrechner"></a>
+
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/klima.svg" alt=""></div>
       </div>
@@ -326,8 +385,8 @@
     </div>
 
     <!-- Box 2: Milieurechner -->
-    <div class="section tools">
-      <a class="section-link-overlay" href="https://fgz-risc-data.de/interaktive-tools/milieu-rechner/" aria-label="Zum Milieurechner"></a>
+    <div class="section tools c-blue">
+      <a class="section-link-overlay" href="https://fgz-risc-data.de/interaktive-tools/milieu-rechner/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgz-risc-data.de/interaktive-tools/milieu-rechner/')" aria-label="Zum Milieurechner"></a>
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/milieu.svg" alt=""></div>
       </div>
@@ -359,8 +418,8 @@
     </div>
 
     <!-- Box 3: Protestlandschaft -->
-    <div class="section tools">
-      <a class="section-link-overlay" href="https://protestdata.eu/" aria-label="Zur Protestlandschaft Deutschland"></a>
+    <div class="section tools c-cream">
+      <a class="section-link-overlay" href="https://protestdata.eu/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://protestdata.eu/')" aria-label="Zur Protestlandschaft Deutschland"></a>
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/protest.svg" alt=""></div>
       </div>
@@ -391,13 +450,79 @@
       </div>
     </div>
 
+    <!-- Box 5: Solidaritätsgeschichten -->
+    <div class="section tools c-purple">
+      <a class="section-link-overlay" href="https://www.solidaritaetsgeschichten.de/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://www.solidaritaetsgeschichten.de/')" aria-label="Zu den Solidaritätsgeschichten"></a>
+      <div class="section-side">
+        <div class="icon-wrap"><img src="assets/solidar.svg" alt=""></div>
+      </div>
+      <div class="section-body">
+        <div class="tool-text">
+          <div class="tool-title">Solidaritätsgeschichten</div>
+          <div class="tool-sub">
+            <div class="sub-row">
+              <span class="sub-icon question">?</span>
+              <span class="sub-text">Was ermöglicht Solidarität? Und was verhindert sie?</span>
+            </div>
+            <div class="sub-row">
+              <span class="sub-icon star">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="12" y1="2" x2="12" y2="22"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                  <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/>
+                </svg>
+              </span>
+              <span class="sub-text">Lies und höre Geschichten von Menschen, die Solidarität in gesellschaftlichen Umbruchsituationen erlebt haben!</span>
+            </div>
+          </div>
+        </div>
+        <div class="corner-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Box 6: FGZ Blog -->
+    <div class="section tools c-yellow">
+      <a class="section-link-overlay" href="https://fgzrisc.hypotheses.org/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgzrisc.hypotheses.org/')" aria-label="Zum FGZ Blog"></a>
+      <div class="section-side">
+        <div class="icon-wrap"><img src="assets/blog.svg" alt=""></div>
+      </div>
+      <div class="section-body">
+        <div class="tool-text">
+          <div class="tool-title">FGZ Blog</div>
+          <div class="tool-sub">
+            <div class="sub-row">
+              <span class="sub-icon question">?</span>
+              <span class="sub-text">Wie lässt sich gesellschaftlicher Zusammenhalt aus unterschiedlichen Perspektiven begreifen?</span>
+            </div>
+            <div class="sub-row">
+              <span class="sub-icon star">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="12" y1="2" x2="12" y2="22"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                  <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/>
+                </svg>
+              </span>
+              <span class="sub-text">Entdecke die Forschungsvielfalt des FGZ in pointierten Expertisebeiträgen!</span>
+            </div>
+          </div>
+        </div>
+        <div class="corner-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer Buttons -->
     <div class="footer-icons">
-      <a class="mini-link" href="https://fgz-risc.de/wissenstransfer/praxisangebote/">
+      <a class="mini-link" href="https://fgz-risc.org/wissenstransfer/praxisangebote/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgz-risc.org/wissenstransfer/praxisangebote/')" target="leftFrame">
         <span class="mini-title">Weitere Praxisangebote</span>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a class="mini-link" href="https://fgz-risc.de/">
+      <a class="mini-link" href="https://fgz-risc.org/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgz-risc.org/')" target="leftFrame">
         <span class="mini-title">Zur FGZ-Website</span>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
@@ -407,13 +532,77 @@
 </div><!-- /frame -->
 </div><!-- /stage -->
 
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Eingebettete Seite">
+  <div class="viewer-bar">
+    <button class="viewer-back" id="viewerBack" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Zurück
+    </button>
+    <a class="viewer-ext" id="viewerExt" href="#" target="_blank" rel="noopener">Seite lädt nicht? Im Browser öffnen</a>
+  </div>
+  <div class="viewer-slot" id="viewerSlot"></div>
+</div>
+
 <script>
+/* ── Links öffnen ──
+   Eingebettet (iframe in Hauptseite): wie bisher an die Hauptseite melden.
+   Standalone (Browser / lokale Datei, z. B. iPad): im Viewer-Overlay im selben Fenster öffnen. */
+function openViewer(url) {
+  var v = document.getElementById('viewer');
+  /* Neues iframe pro Öffnen (src vor dem Einfügen) → keine zusätzlichen History-Einträge */
+  var slot = document.getElementById('viewerSlot');
+  slot.innerHTML = '';
+  var f = document.createElement('iframe');
+  f.className = 'viewer-frame';
+  f.title = 'Eingebettete Seite';
+  f.setAttribute('allow', 'fullscreen; clipboard-write');
+  f.src = url;
+  slot.appendChild(f);
+  document.getElementById('viewerExt').href = url;
+  v.classList.add('open');
+  document.documentElement.classList.add('viewer-open');
+  try { history.pushState({viewer:1}, '', '#viewer'); } catch(e) {}
+}
+function closeViewer(fromHistory) {
+  var v = document.getElementById('viewer');
+  if (!v.classList.contains('open')) return;
+  v.classList.remove('open');
+  document.documentElement.classList.remove('viewer-open');
+  document.getElementById('viewerSlot').innerHTML = '';
+  if (!fromHistory) {
+    try {
+      if (history.state && history.state.viewer) history.back();
+      else if (location.hash === '#viewer') history.replaceState(null, '', location.pathname + location.search);
+    } catch(e) {}
+  }
+}
+document.getElementById('viewerBack').addEventListener('click', function(){ closeViewer(false); });
+window.addEventListener('popstate', function(){ closeViewer(true); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeViewer(false); });
+
+function notifyParent(url) {
+  var embedded = false;
+  try { embedded = (window.top !== window); } catch(e) { embedded = true; }
+  if (!embedded) { openViewer(url); return; }
+  try {
+    /* Direkter Funktionsaufruf im Parent — funktioniert wenn same-origin */
+    if (window.parent && window.parent.navigateLeft) {
+      window.parent.navigateLeft(url);
+      return;
+    }
+  } catch(e) {}
+  /* Fallback: postMessage */
+  window.top.postMessage({ type: "navigateLeft", url: url }, "*");
+}
 (function(){
   var frame = document.getElementById('frame');
-  var baseW = 1200, baseH = 1920;
+  var stage = frame.parentNode;
+  var baseW = 1340, baseH = 3248;
   function fit(){
-    var scale = Math.min(window.innerWidth / baseW, window.innerHeight / baseH);
+    /* Skalierung nur nach Breite (max. 1:1) – Höhe wird gescrollt */
+    var scale = Math.min(window.innerWidth / baseW, 1);
     frame.style.transform = 'scale(' + scale + ')';
+    stage.style.height = Math.ceil(baseH * scale) + 'px';
   }
   window.addEventListener('resize', fit);
   window.addEventListener('orientationchange', fit);
@@ -421,7 +610,7 @@
 })();
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/fgz-landingpage/sw.js");
+    navigator.serviceWorker.register("/fgz-landingpage/sw.js").catch(function(){});
   });
 }
 </script>
