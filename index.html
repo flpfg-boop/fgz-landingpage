@@ -281,20 +281,22 @@
   .viewer.open{display:flex;}
   html.viewer-open{overflow:hidden;}
   .viewer-bar{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
-    padding:calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));
+    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:calc(6px + env(safe-area-inset-top)) calc(10px + env(safe-area-inset-right)) 6px calc(10px + env(safe-area-inset-left));
     background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);
   }
   .viewer-back,.viewer-ext{
-    display:flex;align-items:center;gap:12px;border:none;cursor:pointer;color:#fff;
-    background:rgba(255,255,255,.16);border-radius:22px;min-height:60px;padding:12px 24px;
-    font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:22px;line-height:1.1;text-decoration:none;
+    position:relative;display:flex;align-items:center;gap:6px;border:none;cursor:pointer;color:#fff;
+    background:rgba(255,255,255,.16);border-radius:11px;min-height:30px;padding:6px 12px;
+    font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:14px;line-height:1.1;text-decoration:none;
     transition:background .18s ease, transform .18s ease;
     -webkit-tap-highlight-color:transparent;
   }
+  /* unsichtbar vergrößerte Tippfläche (mind. 44 px) */
+  .viewer-back::after,.viewer-ext::after{content:"";position:absolute;inset:-8px -6px;}
   .viewer-back:active,.viewer-ext:active{transform:scale(.98);background:rgba(255,255,255,.26);}
-  .viewer-back svg{width:24px;height:24px;}
-  .viewer-ext{font-size:18px;font-weight:700;font-family:"Red Hat Text",sans-serif;}
+  .viewer-back svg{width:14px;height:14px;}
+  .viewer-ext{font-size:12px;font-weight:700;font-family:"Red Hat Text",sans-serif;}
   .viewer-slot{flex:1 1 auto;min-height:0;display:flex;background:#fff;}
   .viewer-frame{flex:1 1 auto;width:100%;height:100%;border:0;background:#fff;}
 </style>
