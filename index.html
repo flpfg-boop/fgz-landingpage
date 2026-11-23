@@ -282,21 +282,19 @@
   html.viewer-open{overflow:hidden;}
   .viewer-bar{
     flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
-    height:calc(60px + env(safe-area-inset-top));padding:env(safe-area-inset-top) calc(20px + env(safe-area-inset-right)) 0 calc(20px + env(safe-area-inset-left));
+    padding:calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));
     background:linear-gradient(160deg,var(--fgz-blue-dark) 0%, var(--fgz-blue) 100%);
   }
   .viewer-back,.viewer-ext{
-    position:relative;display:flex;align-items:center;gap:6px;border:none;cursor:pointer;color:#fff;
-    background:rgba(255,255,255,.16);border-radius:12px;min-height:36px;padding:8px 16px;
-    font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:14px;line-height:1.1;text-decoration:none;
+    display:flex;align-items:center;gap:12px;border:none;cursor:pointer;color:#fff;
+    background:rgba(255,255,255,.16);border-radius:22px;min-height:60px;padding:12px 24px;
+    font-family:"Red Hat Display",sans-serif;font-weight:900;font-size:22px;line-height:1.1;text-decoration:none;
     transition:background .18s ease, transform .18s ease;
     -webkit-tap-highlight-color:transparent;
   }
-  /* unsichtbar vergrößerte Tippfläche (mind. 44 px) */
-  .viewer-back::after,.viewer-ext::after{content:"";position:absolute;inset:-8px -6px;}
   .viewer-back:active,.viewer-ext:active{transform:scale(.98);background:rgba(255,255,255,.26);}
-  .viewer-back svg{width:14px;height:14px;}
-  .viewer-ext{font-size:12px;font-weight:700;font-family:"Red Hat Text",sans-serif;}
+  .viewer-back svg{width:24px;height:24px;}
+  .viewer-ext{font-size:18px;font-weight:700;font-family:"Red Hat Text",sans-serif;}
   .viewer-slot{flex:1 1 auto;min-height:0;display:flex;background:#fff;}
   .viewer-frame{flex:1 1 auto;width:100%;height:100%;border:0;background:#fff;}
 </style>
@@ -321,7 +319,7 @@
 
     <!-- Box 1: Streitbot -->
     <div class="section tools c-purple">
-      <a class="section-link-overlay" href="https://onkelbot.qu.tu-berlin.de/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://onkelbot.qu.tu-berlin.de/')" aria-label="Zum Streitbot"></a>
+      <a class="section-link-overlay" href="https://fgz-risc.org/onkelbot/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgz-risc.org/onkelbot/')" aria-label="Zum Streitbot"></a>
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/streit.svg" alt=""></div>
       </div>
@@ -454,7 +452,8 @@
 
     <!-- Box 5: Solidaritätsgeschichten -->
     <div class="section tools c-purple">
-      <a class="section-link-overlay" href="https://www.solidaritaetsgeschichten.de/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://www.solidaritaetsgeschichten.de/')" aria-label="Zu den Solidaritätsgeschichten"></a>
+      <!-- Öffnet direkt im Browser (neuer Tab), nicht im eingebetteten Viewer -->
+      <a class="section-link-overlay" href="https://www.solidaritaetsgeschichten.de/" target="_blank" rel="noopener" aria-label="Zu den Solidaritätsgeschichten (öffnet im Browser)"></a>
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/solidar.svg" alt=""></div>
       </div>
@@ -487,7 +486,7 @@
 
     <!-- Box 6: FGZ Blog -->
     <div class="section tools c-yellow">
-      <a class="section-link-overlay" href="https://fgzrisc.hypotheses.org/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://fgzrisc.hypotheses.org/')" aria-label="Zum FGZ Blog"></a>
+      <a class="section-link-overlay" href="https://blog.fgz-risc.org/" onclick="e=arguments[0];e.preventDefault();notifyParent('https://blog.fgz-risc.org/')" aria-label="Zum FGZ Blog"></a>
       <div class="section-side">
         <div class="icon-wrap"><img src="assets/blog.svg" alt=""></div>
       </div>
